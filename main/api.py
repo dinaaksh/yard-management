@@ -8,7 +8,7 @@ import os
 from datetime import datetime
 
 def connect():
-    conn = sqlite3.connect(os.path.join(app.instance_path, 'warehouse.db'))
+    conn = sqlite3.connect('warehouse.db')
     return conn
 
 class UserAPI(Resource):
@@ -51,7 +51,6 @@ class UserAPI(Resource):
 
 class TruckAPI(Resource):
     def get(self):
-        truck_id = request.args.get('truck_id')
         conn = connect()
         cursor = conn.cursor()
         fetch = cursor.execute('SELECT * FROM trucks WHERE TruckID = ?', (truck_id,)).fetchone()
@@ -370,7 +369,7 @@ class AssignmentApi(Resource):
         conn = connect()
         cursor = conn.cursor()
         
-        fetch = cursor.execute('SELECT * FROM assignment WHERE Assignment ID = ?'(assignment_id)).fetchall()
+        fetch = cursor.execute('SELECT * FROM assignment WHERE Assignment ID = ?',(assignment_id)).fetchall()
         
         if fetch:
             conn.close()
@@ -388,9 +387,9 @@ class AssignmentApi(Resource):
         conn = connect()
         cursor = conn.cursor()
         
-        fetch = cursor.execute('SELECT * FROM assingment WHERE Assignment ID =?'(assignment_id))
+        fetch = cursor.execute('SELECT * FROM assingment WHERE Assignment ID =?',(assignment_id))
         if fetch:
-            conn.execute('DELETE * FROM assignment WHERE Assignment ID =?'(assignment_id))
+            conn.execute('DELETE * FROM assignment WHERE Assignment ID =?',(assignment_id))
             conn.close()
             conn.commit()
             return{'message':'assignment deleted'}
@@ -415,7 +414,7 @@ class AssignmentApi(Resource):
 
         if fetch:
             cursor.execute('''UPDATE assignment SET TruckID=?, StoreID=?,
-                           SKUID=?, EntryTime=?, ExitTime =?, LoadingTime=? WHERE AssignmentID=?'''(truck_id, store_id, sku_id, entry_time, exit_time, loading_time,assignment_id))
+                           SKUID=?, EntryTime=?, ExitTime =?, LoadingTime=? WHERE AssignmentID=?''',(truck_id, store_id, sku_id, entry_time, exit_time, loading_time,assignment_id))
             conn.commit()
             conn.close()
             return {'message': 'Assignment updated successfully'}, 200
