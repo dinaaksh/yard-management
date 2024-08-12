@@ -360,16 +360,13 @@ class AssignmentApi(Resource):
         exit_time = data.get('exit_time')
         loading_time = data.get('loading_time')
 
-        if not all([assignment_id, truck_id, store_id, sku_id, entry_time, exit_time, loading_time]):
-            return {'message': 'Data unavailable: All fields are required.'}, 400
-        
         #current date and time
         current_time = datetime.utcnow().isoformat()
 
         conn = connect()
         cursor = conn.cursor()
         
-        fetch = cursor.execute('SELECT * FROM assignment WHERE Assignment ID = ?',(assignment_id)).fetchall()
+        fetch = cursor.execute('SELECT * FROM assignment WHERE AssignmentID = ?',(assignment_id)).fetchall()
         
         if fetch:
             conn.close()

@@ -89,8 +89,9 @@ def login():
 def masterdash():
     conn=getdb()
     truck=conn.execute("SELECT * FROM trucks").fetchall()
-    print(truck)
-    return render_template('masterdash.html')
+    skus=conn.execute("SELECT * FROM skus").fetchall()
+    stores=conn.execute("SELECT * FROM stores").fetchall()
+    return render_template('masterdash.html', truckdata=truck, skus=skus, stores=stores)
 
 @app.route('/userdash')
 def userdash():
