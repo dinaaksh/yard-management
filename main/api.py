@@ -8,8 +8,9 @@ import os
 from datetime import datetime
 
 def connect():
-    conn = sqlite3.connect('warehouse.db')
-    return conn
+    database_path = os.path.join(os.path.dirname(_file_), 'warehouse.db')
+    conn = sqlite3.connect(database_path)
+    return conn
 
 class UserAPI(Resource):
     def get(self):

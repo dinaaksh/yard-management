@@ -8,9 +8,10 @@ import os
 app = Flask(__name__)
 app.secret_key = 'palampur_ftw'
 
-def getdb():
-    conn = sqlite3.connect('warehouse.db')
-    return conn
+def connect():
+    database_path = os.path.join(os.path.dirname(_file_), 'warehouse.db')
+    conn = sqlite3.connect(database_path)
+    return conn
 
 api = Api(app)
 api.add_resource(UserAPI, '/api/user')
