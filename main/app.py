@@ -9,11 +9,12 @@ app = Flask(__name__)
 app.secret_key = 'palampur_ftw'
 
 def getdb():
-    conn = sqlite3.connect(os.path.join(app.instance_path, 'warehouse.db'))
+    conn = sqlite3.connect('warehouse.db')
     return conn
 
 api = Api(app)
 api.add_resource(UserAPI, '/api/user')
+api.add_resource(TruckAPI, '/api/truck')
 
 # Redirect root URL to login page
 @app.route('/')
@@ -86,13 +87,14 @@ def login():
 
 @app.route('/masterdash')
 def masterdash():
+    conn=getdb()
+    truck=conn.execute("SELECT * FROM trucks").fetchall()
+    print(truck)
     return render_template('masterdash.html')
 
 @app.route('/userdash')
 def userdash():
     return render_template('userdash.html')
-
-api.add_resource(TruckAPI, '/api/trucks')
 
 if __name__ == '__main__':
     app.run(debug=True)
