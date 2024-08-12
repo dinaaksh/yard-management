@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Master Controller Dashboard</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+<body>
+    <header>
+        <h1>Master Controller Dashboard</h1>
+    </header>
+
+    <!-- Buttons to open modals -->
+    <div class="button-container">
+        <button class="button" id="openAddModal">Add Truck</button>
+        <button class="button" id="openUpdateModal">Update Truck</button>
+        <button class="button" id="openDeleteModal">Delete Truck</button>
+        <button class="button" id="openFetchModal">Fetch Truck</button>
+    </div>
+
+    <!-- Modals for Add, Update, Delete, Fetch -->
+    <!-- Add Truck Modal -->
+    <div id="addTruckModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeAddModal">&times;</span>
+            <h2>Add Truck</h2>
+            <form id="addTruckForm">
+                <label for="truck_id">Truck ID:</label>
+                <input type="number" id="truck_id" name="truck_id" required>
+                
+                <label for="truck_number_plate">Truck Number Plate:</label>
+                <input type="text" id="truck_number_plate" name="truck_number_plate" required>
+                
+                <label for="driver_name">Driver Name:</label>
+                <input type="text" id="driver_name" name="driver_name" required>
+                
+                <label for="driver_license_id">Driver License ID:</label>
+                <input type="text" id="driver_license_id" name="driver_license_id" required>
+                
+                <label for="driver_contact">Driver Contact:</label>
+                <input type="text" id="driver_contact" name="driver_contact" required>
+                
+                <label for="truck_rfid">Truck RFID:</label>
+                <input type="text" id="truck_rfid" name="truck_rfid" required>
+                
+                <button type="submit" class="button">Add Truck</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Update Truck Modal -->
+    <div id="updateTruckModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeUpdateModal">&times;</span>
+            <h2>Update Truck</h2>
+            <form id="updateTruckForm">
+                <label for="update_truck_id">Truck ID:</label>
+                <input type="number" id="update_truck_id" name="truck_id" required>
+                
+                <label for="update_truck_number_plate">Truck Number Plate:</label>
+                <input type="text" id="update_truck_number_plate" name="truck_number_plate" required>
+                
+                <label for="update_driver_name">Driver Name:</label>
+                <input type="text" id="update_driver_name" name="driver_name" required>
+                
+                <label for="update_driver_license_id">Driver License ID:</label>
+                <input type="text" id="update_driver_license_id" name="driver_license_id" required>
+                
+                <label for="update_driver_contact">Driver Contact:</label>
+                <input type="text" id="update_driver_contact" name="driver_contact" required>
+                
+                <label for="update_truck_rfid">Truck RFID:</label>
+                <input type="text" id="update_truck_rfid" name="truck_rfid" required>
+                
+                <button type="submit" class="button">Update Truck</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Truck Modal -->
+    <div id="deleteTruckModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeDeleteModal">&times;</span>
+            <h2>Delete Truck</h2>
+            <form id="deleteTruckForm">
+                <label for="delete_truck_id">Truck ID:</label>
+                <input type="number" id="delete_truck_id" name="truck_id" required>
+                
+                <button type="submit" class="button">Delete Truck</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Fetch Truck Modal -->
+    <div id="fetchTruckModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeFetchModal">&times;</span>
+            <h2>Fetch Truck</h2>
+            <form id="retrieveTruckForm">
+                <label for="fetch_truck_id">Truck ID:</label>
+                <input type="number" id="fetch_truck_id" name="truck_id" required>
+                
+                <button type="submit" class="button">Fetch Truck</button>
+            </form>
+            <h3>Truck Information</h3>
+            <table id="truckTable">
+                <thead>
+                    <tr>
+                        <th>Truck ID</th>
+                        <th>Truck Number Plate</th>
+                        <th>Driver Name</th>
+                        <th>Driver License ID</th>
+                        <th>Driver Contact</th>
+                        <th>Truck RFID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Truck data will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+</body>
+</html>
