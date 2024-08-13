@@ -10,27 +10,6 @@
     <header>
         <h1>Loading Manager Dashboard</h1>
     </header>
-    
-    <!-- Analytics Section -->
-    <section id="analytics-panel">
-        <h2>Warehouse Analytics</h2>
-        <div class="analytics-item" id="avg-waiting-time">
-            <h3>Average Waiting Time</h3>
-            <p id="avg-waiting-time-value">Loading...</p>
-        </div>
-        <div class="analytics-item" id="turnaround-time">
-            <h3>Turnaround Time</h3>
-            <p id="turnaround-time-value">Loading...</p>
-        </div>
-        <div class="analytics-item" id="loading-time">
-            <h3>Loading Time</h3>
-            <p id="loading-time-value">Loading...</p>
-        </div>
-        <div class="analytics-item" id="trucks-in-warehouse">
-            <h3>Trucks in Warehouse</h3>
-            <p id="trucks-count-value">Loading...</p>
-        </div>
-    </section>
 
     <!-- Tables Section -->
     <section id="tables-section">
@@ -57,12 +36,14 @@
             <!-- Store Table -->
             <section id="store-section" class="table-container">
                 <h2>Store Details</h2>
+                <button id="assign-store-btn">Assign Store to Truck</button>
                 <table id="store-table">
                     <thead>
                         <tr>
                             <th>Store ID</th>
                             <th>Name</th>
-                            <th>Contact Address</th>
+                            <th>Contact</th> <!-- Separated Contact -->
+                            <th>Address</th> <!-- Separated Address -->
                             <th>Manager</th>
                             <th>Assign Truck</th>
                         </tr>
@@ -78,13 +59,14 @@
             <!-- SKU List Table -->
             <section id="sku-list-section" class="table-container">
                 <h2>SKU List</h2>
+                <button id="assign-sku-btn">Assign SKU to Truck</button>
                 <table id="sku-list-table">
                     <thead>
                         <tr>
                             <th>SKU ID</th>
                             <th>Name</th>
                             <th>Warehouse</th>
-                            <th>Truck ID</th> <!-- Updated column name -->
+                            <th>Truck ID</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,9 +74,58 @@
                     </tbody>
                 </table>
             </section>
-            
+        </div>
+    </section>
+
+    <!-- Dialog Box for Assigning SKU -->
+    <div id="assign-sku-dialog" class="dialog">
+        <div class="dialog-content">
+            <span class="close-btn">&times;</span>
+            <h2>Assign SKU to Truck</h2>
+            <form id="assign-sku-form">
+                <label for="sku-id">SKU ID:</label>
+                <input type="text" id="sku-id" name="sku-id" required><br><br>
+
+                <label for="truck-id">Truck ID:</label>
+                <input type="text" id="truck-id" name="truck-id" required><br><br>
+
+                <label for="sku-name">SKU Name:</label>
+                <input type="text" id="sku-name" name="sku-name" required><br><br>
+
+                <label for="warehouse">Warehouse:</label>
+                <input type="text" id="warehouse" name="warehouse" required><br><br>
+
+                <button type="submit">Assign SKU</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dialog Box for Assigning Store -->
+    <div id="assign-store-dialog" class="dialog">
+        <div class="dialog-content">
+            <span class="close-btn">&times;</span>
+            <h2>Assign Store to Truck</h2>
+            <form id="assign-store-form">
+                <label for="store-id">Store ID:</label>
+                <input type="text" id="store-id" name="store-id" required><br><br>
+
+                <label for="truck-id-store">Truck ID:</label>
+                <input type="text" id="truck-id-store" name="truck-id-store" required><br><br>
+
+                <label for="store-name">Store Name:</label>
+                <input type="text" id="store-name" name="store-name" required><br><br>
+
+                <label for="contact">Contact:</label>
+                <input type="text" id="contact" name="contact" required><br><br>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required><br><br>
+
+                <button type="submit">Assign Store</button>
+            </form>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename='userscript.js') }}" defer></script>
 </body>
 </html>
-
