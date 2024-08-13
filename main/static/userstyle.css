@@ -5,6 +5,13 @@ body {
     background-color: #f4f4f4;
 }
 
+header {
+    background-color: #0071ce;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
 h2 {
     color: #333;
 }
@@ -58,4 +65,22 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+#tables-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.table-wrapper {
+    flex: 1 1 calc(50% - 20px); /* Adjust width of each table */
+}
+
+.table-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
 }
