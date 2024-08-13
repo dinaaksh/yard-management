@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warehouse Management Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='userstyle.css') }}">
 </head>
 <body>
-
+    <header>
+        <h1>Loading Manager Dashboard</h1>
+    </header>
+    
     <!-- Analytics Section -->
     <section id="analytics-panel">
         <h2>Warehouse Analytics</h2>
@@ -29,62 +32,69 @@
         </div>
     </section>
 
-    <!-- Truck List Table -->
-    <section id="truck-list-section">
-        <h2>Active Trucks</h2>
-        <table id="truck-list-table">
-            <thead>
-                <tr>
-                    <th>Truck ID</th>
-                    <th>Number Plate</th>
-                    <th>Driver Info</th>
-                    <th>Entry Time</th>
-                    <th>Exit Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows will be populated dynamically -->
-            </tbody>
-        </table>
-    </section>
+    <!-- Tables Section -->
+    <section id="tables-section">
+        <div class="table-wrapper">
+            <!-- Truck List Table -->
+            <section id="truck-list-section" class="table-container">
+                <h2>Active Trucks</h2>
+                <table id="truck-list-table">
+                    <thead>
+                        <tr>
+                            <th>Truck ID</th>
+                            <th>Number Plate</th>
+                            <th>Driver Info</th>
+                            <th>Entry Time</th>
+                            <th>Exit Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be populated dynamically -->
+                    </tbody>
+                </table>
+            </section>
 
-    <!-- Store Table -->
-    <section id="store-section">
-        <h2>Store Details</h2>
-        <table id="store-table">
-            <thead>
-                <tr>
-                    <th>Store ID</th>
-                    <th>Name</th>
-                    <th>Contact Address</th>
-                    <th>Manager</th>
-                    <th>Assign Truck</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows will be populated dynamically -->
-            </tbody>
-        </table>
-    </section>
+            <!-- Store Table -->
+            <section id="store-section" class="table-container">
+                <h2>Store Details</h2>
+                <table id="store-table">
+                    <thead>
+                        <tr>
+                            <th>Store ID</th>
+                            <th>Name</th>
+                            <th>Contact Address</th>
+                            <th>Manager</th>
+                            <th>Assign Truck</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be populated dynamically -->
+                    </tbody>
+                </table>
+            </section>
+        </div>
 
-    <!-- SKU List Table -->
-    <section id="sku-list-section">
-        <h2>SKU List</h2>
-        <table id="sku-list-table">
-            <thead>
-                <tr>
-                    <th>SKU ID</th>
-                    <th>Name</th>
-                    <th>Warehouse</th>
-                    <th>Manage Entry</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Rows will be populated dynamically -->
-            </tbody>
-        </table>
-    </section>
+        <div class="table-wrapper">
+            <!-- SKU List Table -->
+            <section id="sku-list-section" class="table-container">
+                <h2>SKU List</h2>
+                <table id="sku-list-table">
+                    <thead>
+                        <tr>
+                            <th>SKU ID</th>
+                            <th>Name</th>
+                            <th>Warehouse</th>
+                            <th>Truck ID</th> <!-- Updated column name -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be populated dynamically -->
+                    </tbody>
+                </table>
+            </section>
+            
 
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='usercript.js') }}" defer></script>
 </body>
 </html>
+
