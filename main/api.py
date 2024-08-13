@@ -52,6 +52,8 @@ class UserAPI(Resource):
 
 class TruckAPI(Resource):
     def get(self):
+        data = request.get_json()
+        truck_id = data.get('truck_id')
         conn = connect()
         cursor = conn.cursor()
         fetch = cursor.execute('SELECT * FROM trucks WHERE TruckID = ?', (truck_id,)).fetchone()
@@ -70,9 +72,9 @@ class TruckAPI(Resource):
         else:
             return {'message': 'No trucks found'}, 404
     
-    def post(self):
+    def post(self, TruckID):
         data = request.get_json()
-        truck_id = data.get('truck_id')
+        
         truck_number_plate = data.get('truck_number_plate')
         driver_name = data.get('driver_name')
         driver_license_id = data.get('driver_license_id')
@@ -82,24 +84,25 @@ class TruckAPI(Resource):
         conn = connect()
         cursor = conn.cursor()
             
-        if not all([truck_id, truck_number_plate, driver_name, driver_license_id, driver_contact, truck_rfid]):
+        if not all([truck_number_plate, driver_name, driver_license_id, driver_contact, truck_rfid]):
             return {'message': 'Data unavailable: All fields are required.'}, 400
         
-        fetch = cursor.execute('SELECT * FROM trucks WHERE TruckID = ?', (truck_id,)).fetchall()
+        fetch = cursor.execute('SELECT * FROM trucks WHERE TruckID = ?', (TruckID)).fetchall()
     
         if fetch:
             conn.close()
             return {'message': 'Truck with this ID already registered'}, 400
         else:
-            cursor.execute('INSERT INTO trucks (TruckID, TruckNumberPlate, DriverName, DriverLicenseID, DriverContact, TruckRFID) VALUES (?, ?, ?, ?, ?, ?)', 
-                           (truck_id, truck_number_plate, driver_name, driver_license_id, driver_contact, truck_rfid))
+            cursor.execute('INSERT INTO trucks (TruckNumberPlate, DriverName, DriverLicenseID, DriverContact, TruckRFID) VALUES (?, ?, ?, ?, ?)', 
+                           (truck_number_plate, driver_name, driver_license_id, driver_contact, truck_rfid))
         
         conn.commit()
         conn.close()
         return {'message': 'Truck added successfully'}, 200
     
     def delete(self):
-        truck_id = request.get_json().get('truck_id')
+        data = request.get_json()
+        truck_id = data.get('truck_id')
         conn = connect()
         cursor = conn.cursor()
         
@@ -139,7 +142,8 @@ class TruckAPI(Resource):
         
 class StoreAPI(Resource):
     def get(self):
-        store_id = request.get_json('store_id') 
+        data = request.get_json
+        store_id = data.get('store_id') 
         conn = connect()  
         cursor = conn.cursor()
 
@@ -160,30 +164,30 @@ class StoreAPI(Resource):
             else:
                 return {'message': 'Store not found'}, 404
 
-    def post(self):
+    def post(self , StoreID):
         data = request.get_json()
-        store_id = data.get('store_id')
+        
         store_name = data.get('store_name')
         store_manager = data.get('store_manager')
         store_contact = data.get('store_contact')
         store_address = data.get('store_address')
         
         # Check if any required field is missing or empty
-        if not all([store_id,store_name, store_manager, store_contact, store_address]):
+        if not all([store_name, store_manager, store_contact, store_address]):
             return {'message': 'Data unavailable: All fields are required.'}, 400
         
         conn = connect()
         cursor = conn.cursor()
 
         # Check if a store with the same name already exists
-        fetch = cursor.execute('SELECT * FROM stores WHERE Store Name=?', (store_name,)).fetchall()
+        fetch = cursor.execute('SELECT * FROM stores WHERE StoreID=?', (StoreID)).fetchall()
         
         if fetch:
             conn.close()
             return {'message': 'Store with this name already registered'}, 400
         else:
-            cursor.execute('INSERT INTO stores (StoreID,Store Name, Store Manager, Store Contact, Store Address) VALUES (?,?, ?, ?, ?)', 
-                           (store_id,store_name, store_manager, store_contact, store_address))
+            cursor.execute('INSERT INTO stores (Store Name, Store Manager, Store Contact, Store Address) VALUES (?, ?, ?, ?)', 
+                           (store_name, store_manager, store_contact, store_address))
             conn.commit()
             conn.close()
             return {'message': 'Store added successfully'}, 200
@@ -205,7 +209,7 @@ class StoreAPI(Resource):
             return{'message':'Store does not exist'},404
     
     
-    def put(self):
+    def put(self ):
         data = request.get_json()
         store_id = data.get('store_id')
         store_name = data.get('store_name')
@@ -257,27 +261,27 @@ class SKUAPI(Resource):
         
         
 
-    def post(self):
+    def post(self, SKUID):
         data = request.get_json()
-        sku_id = data.get_json('sku_id')
+        
         sku_name  = data.get('sku_name')
         warehouse_number = data.get('warehouse_number')
 
-        if not all([sku_id,sku_name, warehouse_number]):
+        if not all([sku_name, warehouse_number]):
             return {'message': 'Data unavailable: SKU Name and Warehouse Number are required.'}, 400
 
         conn = connect()
         cursor = conn.cursor()
 
     
-        fetch = cursor.execute('SELECT * FROM sku WHERE SKUID=? ', (sku_id,)).fetchall()
+        fetch = cursor.execute('SELECT * FROM sku WHERE SKUID=? ', (SKUID)).fetchall()
 
         if fetch:
             conn.close()
             return {'message': 'SKU with this name already exists'}, 400
         else:
-            cursor.execute('INSERT INTO sku (SKUID, SKU Name, Warehouse Number) VALUES (?,?, ?)', 
-                           (sku_id ,sku_name, warehouse_number))
+            cursor.execute('INSERT INTO sku (SKU Name, Warehouse Number) VALUES (?, ?)', 
+                           (sku_name, warehouse_number))
             conn.commit()
             conn.close()
             return {'message': 'SKU added successfully'}, 201
@@ -351,30 +355,27 @@ class AssignmentApi(Resource):
         else:
             return {'message': 'Assignment not found'}, 404
         
-    def post(self):
+    def post(self,AssignmentID):
         data = request.get_json()
-        assignment_id = data.get('assignment_id')
+        
         truck_id = data.get('truck_id')
         store_id = data.get('store_id')
         sku_id = data.get('sku_id')
-        entry_time = data.get('entry_time')
-        exit_time = data.get('exit_time')
-        loading_time = data.get('loading_time')
-
+        
         #current date and time
-        current_time = datetime.utcnow().isoformat()
+        current_time = datetime.datetime.now()
 
         conn = connect()
         cursor = conn.cursor()
         
-        fetch = cursor.execute('SELECT * FROM assignment WHERE AssignmentID = ?',(assignment_id)).fetchall()
+        fetch = cursor.execute('SELECT * FROM assignment WHERE AssignmentID = ?',(AssignmentID)).fetchall()
         
         if fetch:
             conn.close()
             return{'message':'Assignment already exist'},404
         else :
             cursor.execute('INSERT INTO assignments (TruckID, StoreID, SKUID, Entry Time, Exit Time, Loading Time) VALUES (?, ?, ?, ?, ?, ?)', 
-                       (truck_id, store_id, sku_id, current_time, current_time, loading_time))
+                       (truck_id, store_id, sku_id, current_time, current_time, current_time))
             conn.commit()
             conn.close()
             return {'message': 'Assignment added successfully'}, 201
@@ -401,10 +402,9 @@ class AssignmentApi(Resource):
         truck_id = data.get('truck_id')
         store_id = data.get('store_id')
         sku_id = data.get('sku_id')
-        entry_time = data.get('entry_time')
-        exit_time = data.get('exit_time')
-        loading_time = data.get('loading_time')    
-
+        
+        current_time = datetime.datetime.now()
+  
         conn = connect()
         cursor = conn.cursor()
 
@@ -412,7 +412,7 @@ class AssignmentApi(Resource):
 
         if fetch:
             cursor.execute('''UPDATE assignment SET TruckID=?, StoreID=?,
-                           SKUID=?, EntryTime=?, ExitTime =?, LoadingTime=? WHERE AssignmentID=?''',(truck_id, store_id, sku_id, entry_time, exit_time, loading_time,assignment_id))
+                           SKUID=?, EntryTime=?, ExitTime =?, LoadingTime=? WHERE AssignmentID=?''',(truck_id, store_id, sku_id, current_time , current_time, current_time,assignment_id))
             conn.commit()
             conn.close()
             return {'message': 'Assignment updated successfully'}, 200
